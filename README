@@ -1,0 +1,45 @@
+DUICAN MIHNEA - IONUȚ
+324CA
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ README - TEMA 3 PC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The main component of may homework is based on creating the MyClient object. Its only public method
+is named "runClient". The client is initialized using the constructor. I used the files helpers.h
+and buffer.h which were also used in Lab 10. In request.h I developed some new functions that are
+going to correctly compose any type of HTTP request that the app will ever demand.
+
+WORKFLOW!!
+    Starting with runClient, a prompt is displayed ("Your command: "), which can take one command.
+    Afterwards, it is checked the validity of the command, getting filtered, then the command will
+    indicate a specific action, which will call the right request composing function.
+    
+    Nonetheless the connection is established any time when needed to communicate with the server.
+    The function "openConnection" is used every time before sending the message and right after
+    receiving an answer the function "closeConnection" is called to safely close it.
+
+    The way I chose to process the messages coming from the server is going like this: from each
+    message the first line is extracted and checked; based on the HTTP status code future actions
+    will be considered: in case of a positive / expected response then there might be another
+    message confirming the success of the action, otherwise in case of unexpected response / error
+    / malfunction then the server will send back a json packed up with the message which is processed
+    and displayed by the client. However, the client will display each json that comes on
+    (excepted the JWT). Exceptional cases are when getting a list of json objects, processing each
+    item in the list separately. This happens on get_books and get_book(getting a list with
+    one object ... wired whatever).
+
+    Additionally, the app will check if a client if logged in before performing actions that are
+    requiring credentials, user data or authorizations.
+
+    Login - Register come up with no conflict. Usually you wouldn't be allowed to register a new
+    account when you are already logged in on another, but only you were a privileged client/
+    administrator. I decided to let this happen on my homework (to be logged in and to create
+    an account). 
+
+JSON MANIPULATION!!
+    Given the fact that I implemented my homework with c++, I made use of the indicated library,
+    in the text of the homework (<nlohmann/json.hpp>). However this lib was not installed by default.
+    (used sudo apt install nlohmann-json-dev to have it integrated in c++ libs). Used functions
+    such as json::parse() to automatically convert a string to a json object, iterators along
+    .key() and .value() to access the needed fields, .dump() method to convert the content of 
+    json object to a string format. All of those found themselves pretty useful in both cases:
+    when creating a request or when processing a response. 
